@@ -135,7 +135,7 @@ npm install
 
 ### 2. 환경 변수 설정
 
-`.env.example`을 복사해 `.env` 파일을 만들고 Firebase 값을 입력합니다.
+`.env.example`을 복사해 `.env` 파일을 만들고 필요시 Firebase 값을 입력합니다.
 
 ```bash
 cp .env.example .env

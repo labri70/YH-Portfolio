@@ -402,7 +402,7 @@
 
     <!-- Footer -->
     <footer class="border-t border-white/10 bg-navy-950 py-8 text-center text-sm text-slate-500">
-      <p>© 2025 KIM'S PORTFOLIO. All rights reserved.</p>
+      <p>© 2026 YH PORTFOLIO. All rights reserved.</p>
       <p class="mt-1 text-xs">Generative AI · RAG · Data Engineering Portfolio</p>
     </footer>
   </div>
