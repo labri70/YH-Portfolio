@@ -391,7 +391,7 @@
             </p>
           </div>
           <a
-            href="mailto:contact@example.com"
+            :href="`mailto:${contactInfo.email}`"
             class="shrink-0 rounded-full bg-cyan-accent px-8 py-4 text-sm font-semibold text-navy-950 transition-opacity hover:opacity-90"
           >
             프로젝트 문의하기
@@ -404,6 +404,20 @@
     <footer class="border-t border-white/10 bg-navy-950 py-8 text-center text-sm text-slate-500">
       <p>© 2026 YH PORTFOLIO. All rights reserved.</p>
       <p class="mt-1 text-xs">Generative AI · RAG · Data Engineering Portfolio</p>
+      <div class="footer-contact mt-4 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs text-slate-400">
+        <a
+          :href="`mailto:${contactInfo.email}`"
+          class="transition-colors hover:text-cyan-accent"
+        >
+          {{ contactInfo.email }}
+        </a>
+        <a
+          :href="`tel:${contactInfo.phone.replace(/-/g, '')}`"
+          class="transition-colors hover:text-cyan-accent"
+        >
+          {{ contactInfo.phone }}
+        </a>
+      </div>
     </footer>
   </div>
 </template>
@@ -438,6 +452,11 @@ useHead({
 })
 
 const { navigateToSection } = usePortfolioScroll()
+
+const contactInfo = {
+  email: 'labri70@gmail.com',
+  phone: '010-2626-8422',
+}
 
 const portfolioImages = {
   about: '/images/photo1.png',
