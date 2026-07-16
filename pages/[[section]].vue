@@ -341,7 +341,19 @@
               <h3 class="card-title">{{ project.title }}</h3>
               <p class="card-desc">{{ project.description }}</p>
               <p class="project-card__tech text-xs text-slate-400">{{ project.tech }}</p>
-              <button class="project-card__link text-sm font-medium text-cyan-glow hover:underline">
+              <a
+                v-if="project.link"
+                :href="project.link"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="project-card__link text-sm font-medium text-cyan-glow hover:underline"
+              >
+                자세히 보기 →
+              </a>
+              <button
+                v-else
+                class="project-card__link text-sm font-medium text-cyan-glow hover:underline"
+              >
                 자세히 보기 →
               </button>
             </div>
@@ -581,10 +593,23 @@ const projectFilters = [
   { label: '전체', value: 'all' },
   { label: 'RAG', value: 'rag' },
   { label: 'AI 챗봇', value: 'chatbot' },
+  { label: 'EDA', value: 'eda' },
   { label: '업무 자동화', value: 'automation' },
 ]
 
 const projects = [
+  {
+    title: '건강 데이터 EDA 대시보드',
+    status: 'Released',
+    category: 'eda',
+    tags: ['EDA', 'Streamlit', 'Health Data'],
+    description:
+      '심장병과 당뇨 공개 데이터셋을 Streamlit으로 정리해 데이터 요약, 핵심 시각화, 모델 결과, 해석과 주의사항을 한 화면에서 확인할 수 있게 만든 분석 대시보드입니다.',
+    tech: 'Python · Streamlit · Pandas · scikit-learn',
+    icon: 'fa fa-heartbeat',
+    thumbnailClass: 'bg-gradient-to-br from-rose-500 to-cyan-700',
+    link: 'https://health-eda-dashboard.streamlit.app/',
+  },
   {
     title: '교육 자료 통합 검색 어시스턴트',
     status: 'Prototype',
@@ -732,6 +757,7 @@ function statusBadgeClass(status) {
 }
 
 .project-card__link {
+  display: inline-block;
   margin-top: var(--card-inner-gap);
 }
 
