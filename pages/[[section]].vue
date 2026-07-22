@@ -311,21 +311,17 @@
         </div>
 
         <div class="card-grid sm:grid-cols-2">
-          <article
+          <component
+            :is="project.link ? 'a' : 'article'"
             v-for="project in filteredProjects"
             :key="project.title"
+            :href="project.link || undefined"
+            :target="project.link ? '_blank' : undefined"
+            :rel="project.link ? 'noopener noreferrer' : undefined"
             class="project-card overflow-hidden border border-slate-200 bg-white transition-shadow hover:shadow-lg"
+            :class="{ 'project-card--linked': project.link }"
           >
-            <div
-              class="relative flex h-44 items-center justify-center bg-navy-900"
-              :class="project.thumbnailClass"
-            >
-              <span
-                class="absolute left-4 top-4 rounded-full px-3 py-1 text-xs font-semibold"
-                :class="statusBadgeClass(project.status)"
-              >
-                {{ project.status }}
-              </span>
+            <div class="project-card__visual relative flex h-44 items-center justify-center">
               <i :class="project.icon" class="project-card__icon" />
             </div>
             <div class="project-card__body">
@@ -341,15 +337,12 @@
               <h3 class="card-title">{{ project.title }}</h3>
               <p class="card-desc">{{ project.description }}</p>
               <p class="project-card__tech text-xs text-slate-400">{{ project.tech }}</p>
-              <a
+              <span
                 v-if="project.link"
-                :href="project.link"
-                target="_blank"
-                rel="noopener noreferrer"
                 class="project-card__link text-sm font-medium text-cyan-glow hover:underline"
               >
                 자세히 보기 →
-              </a>
+              </span>
               <button
                 v-else
                 class="project-card__link text-sm font-medium text-cyan-glow hover:underline"
@@ -357,7 +350,7 @@
                 자세히 보기 →
               </button>
             </div>
-          </article>
+          </component>
         </div>
       </div>
     </section>
@@ -600,55 +593,55 @@ const projectFilters = [
 const projects = [
   {
     title: '건강 데이터 EDA 대시보드',
-    status: 'Released',
     category: 'eda',
     tags: ['EDA', 'Streamlit', 'Health Data'],
     description:
       '심장병과 당뇨 공개 데이터셋을 Streamlit으로 정리해 데이터 요약, 핵심 시각화, 모델 결과, 해석과 주의사항을 한 화면에서 확인할 수 있게 만든 분석 대시보드입니다.',
     tech: 'Python · Streamlit · Pandas · scikit-learn',
     icon: 'fa fa-heartbeat',
-    thumbnailClass: 'bg-gradient-to-br from-rose-500 to-cyan-700',
     link: 'https://health-eda-dashboard.streamlit.app/',
   },
   {
+    title: '모델쇼케이스',
+    category: 'eda',
+    tags: ['MNIST', 'Streamlit', 'Model Demo'],
+    description:
+      'MNIST 숫자 분류 모델을 Streamlit 앱으로 구성해, 모델 예측 결과를 직접 확인할 수 있게 만든 모델 시연 프로젝트입니다.',
+    tech: 'Python · Streamlit · Machine Learning',
+    icon: 'fa fa-bicycle',
+    link: 'https://mnist-bike-showcase.streamlit.app/',
+  },
+  {
     title: '교육 자료 통합 검색 어시스턴트',
-    status: 'Prototype',
     category: 'rag',
     tags: ['RAG', 'Education'],
     description: '강의자료, 문서, PDF를 통합 검색하고 핵심 내용을 요약하는 RAG 기반 교육 보조 서비스',
     tech: 'RAG · Vector Search · Firebase · Nuxt',
     icon: 'fa fa-graduation-cap',
-    thumbnailClass: 'bg-gradient-to-br from-navy-800 to-navy-700',
   },
   {
     title: '고객 문의 응대 AI 챗봇',
-    status: 'Case Study',
     category: 'chatbot',
     tags: ['AI Chatbot', 'Customer Support'],
     description: '서비스 정보와 FAQ를 기반으로 고객 문의에 응답하는 챗봇 구조 설계',
     tech: 'LLM · Tool Calling · Guardrails',
     icon: 'fa fa-headphones',
-    thumbnailClass: 'bg-gradient-to-br from-navy-900 to-slate-800',
   },
   {
     title: '문서 분석·보고서 자동화',
-    status: 'In Progress',
     category: 'automation',
     tags: ['Workflow', 'Automation'],
     description: '업로드한 문서를 요약하고 보고서 초안을 생성하는 업무 자동화 도구',
     tech: 'Document AI · Prompt Chain · API',
     icon: 'fa fa-file-text-o',
-    thumbnailClass: 'bg-gradient-to-br from-slate-800 to-navy-900',
   },
   {
     title: '내부 지식 검색 AI 서비스',
-    status: 'Prototype',
     category: 'rag',
     tags: ['RAG', 'Knowledge Base'],
     description: '사내 문서와 매뉴얼을 검색 가능한 지식 기반으로 구성하는 RAG 서비스',
     tech: 'Embedding · Retrieval · Nuxt · Firebase',
     icon: 'fa fa-database',
-    thumbnailClass: 'bg-gradient-to-br from-navy-700 to-navy-950',
   },
 ]
 
@@ -680,15 +673,6 @@ const filteredProjects = computed(() => {
   return projects.filter((p) => p.category === activeFilter.value)
 })
 
-function statusBadgeClass(status) {
-  const map = {
-    Prototype: 'bg-amber-500/20 text-amber-300',
-    'In Progress': 'bg-blue-500/20 text-blue-300',
-    'Case Study': 'bg-purple-500/20 text-purple-300',
-    Released: 'bg-emerald-500/20 text-emerald-300',
-  }
-  return map[status] ?? 'bg-slate-500/20 text-slate-300'
-}
 </script>
 
 <style scoped>
@@ -742,6 +726,16 @@ function statusBadgeClass(status) {
 
 .project-card {
   border-radius: var(--card-radius);
+}
+
+.project-card--linked {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+}
+
+.project-card--linked:hover .project-card__link {
+  text-decoration: underline;
 }
 
 .project-card__body {
@@ -988,6 +982,10 @@ function statusBadgeClass(status) {
 }
 
 /* ── Project Cards ── */
+.project-card__visual {
+  background-color: #111f33;
+}
+
 .project-card__icon {
   font-size: var(--fz-project-icon);
   color: rgb(34 211 238 / 0.3);
