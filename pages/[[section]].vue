@@ -612,6 +612,16 @@ const projects = [
     link: 'https://mnist-bike-showcase.streamlit.app/',
   },
   {
+    title: 'RAG 입문 검색 챗봇',
+    category: 'rag',
+    tags: ['RAG', 'Streamlit', 'Beginner'],
+    description:
+      'RAG의 기본 흐름을 단계별로 실습하며, 질문에 맞는 문서를 검색하고 답변으로 연결하는 과정을 확인할 수 있게 만든 입문형 챗봇 프로젝트입니다.',
+    tech: 'Python · Streamlit · RAG · LLM',
+    icon: 'fa fa-search',
+    link: 'https://rag-beginner-step1.streamlit.app',
+  },
+  {
     title: '교육 자료 통합 검색 어시스턴트',
     category: 'rag',
     tags: ['RAG', 'Education'],
